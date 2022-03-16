@@ -8,9 +8,9 @@ const bookSchema = new Schema({
     description: { type: String, required: true },
     year: { type: Number, required: true },
     quantity: {type: Number, required: true},
-    image: { type: String, required: true }
+    imageURL: { type: String, required: true }
 })
 
 // model and export: 
-const Language = mongoose.model('Book', bookSchema)
+const Book = mongoose.model('Book', bookSchema)
 module.exports = Book
