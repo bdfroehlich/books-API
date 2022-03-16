@@ -44,47 +44,77 @@ books.get('/seed', (req, res) => {
 
 //BOOKS INDEX
 books.get('/', (req, res) => {
-    console.log("books index")
+    // console.log("books index")
     Book.find()
-    .then(books => {
-        res.json({books})
+    .then(foundBook => {
+        res.status(200).json(foundBook)
     })
-    .catch(res.status(400).json({
-        message: 'cannot GET books'
-    }))
+    .catch(err => {
+        res.status(400).json({
+            message: 'cannot get all books'
+        })
+    })
 })
 
 
-books.post('/', (req, res) => {
-    res.send('POST /books stub')
+//SHOW BOOK  
+books.get('/:id', (req, res) => {
+    Book.findById(req.params.id)
+    .then(foundBook => {
+        res.status(200).json(foundBook)
+    })
+    .catch(err => {
+        res.status(400).json({
+            message: 'cannot get specific book'
+        })
+    })
 })
-  
-books.get('/new', (req, res) => {
-    res.render('books/new')
-})
-  
-// books.get('/:id', (req, res) => {
-//         Book.findById(req.params.id)
-//         .then(book => {
-//             res.json({book})
-//         })
-//         .catch(err => {
-//           console.log('err', err)
-//           res.render('error404')
-//         })
-// })
-  
+ 
+
+//UPDATE BOOK
 books.put('/:id', (req, res) => {
-    res.send('PUT /books/:id stub')
+    Book.findByIdAndUpdate(req.params.id, req.body, { new: true }) 
+    .then(updatedBook => {
+        console.log(req.body)
+        res.status(200).json(updatedBook)
+    })
+    .catch(err => {
+        res.status(400).json({
+            message: 'cannot update book'
+        })
+    })
 })
-  
+
+
+//CREATE BOOK
+books.post('/', (req, res) => {
+    Book.create(req.body) 
+    .then(createdBook => {
+        res.status(200).json(createdBook)
+    })
+    .catch(err => {
+        res.status(400).json({
+            message: 'cannot create book'
+        })
+    })
+})
+ 
+
+//DELETE BOOK
 books.delete('/:id', (req, res) => {
-    res.send('DELETE /books/:id stub')
+    Book.findByIdAndDelete(req.params.id) 
+    .then(deletedBook => {
+        res.status(200).json({
+            message: "Deleted succesfully"
+        })
+    })
+    .catch(err => {
+        res.status(400).json({
+            message: 'cannot delete book'
+        })
+    })
 })
   
-books.get('/:id/edit', (req, res) => {
-    res.send('GET edit form stub')
-})
 
 
 module.exports = books
