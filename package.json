@@ -1,6 +1,9 @@
 {
   "name": "books-api",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.18.1"
+  },
   "description": "books api",
   "main": "server.js",
   "scripts": {
